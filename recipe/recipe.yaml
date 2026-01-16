@@ -11,24 +11,28 @@ package:
 source:
   url: https://github.com/bradbell/at_cascade/archive/${{ version }}.tar.gz
   sha256: 22235b2747f8fb30b75ae547b5e0255615a25ad68ca98ee3193d5b1c0c78e660
+  #
+  patches:
+    # patches for this version. 
+    - ${{ version }}.patch
 
 build:
-  number: 0
+  number: 1
   noarch: python
   script:
     - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
-    - python =${{ python_min }}
+    - python
     - hatchling
     - pip
-    - dismod-at >=2025.0.0
+    - dismod-at >=2026.0.0
     - numpy
     - scipy
   run:
-    - python =${{ python_min }}
-    - dismod-at >=2025.0.0
+    - python
+    - dismod-at >=2026.0.0
     - numpy
     - scipy
 
@@ -37,7 +41,6 @@ tests:
       imports:
         - at_cascade
       pip_check: true
-      python_version: ${{ python_min }}.*
   # Run one of the sandbox tests using the installed version of at_cascade.
   - script:
       # python example/csv/sim_fit_pred.py
