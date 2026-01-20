@@ -30,7 +30,7 @@ requirements:
   run:
     - dismod-at >=2026.0.0
     - numpy
-    - python
+    - python >=${{ python_min }}
     - scipy
 
 tests:
