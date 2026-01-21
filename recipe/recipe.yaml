@@ -13,39 +13,39 @@ source:
   sha256: 22235b2747f8fb30b75ae547b5e0255615a25ad68ca98ee3193d5b1c0c78e660
   #
   patches:
-    # patches for this version. 
+    # patches for this version.
     - ${{ version }}.patch
 
 build:
-  number: 1
+  number: 2
+  noarch: python
   script:
-    - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+    - ${{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation --disable-pip-version-check
 
 requirements:
   host:
-    - python
     - hatchling
     - pip
-    - dismod-at >=2026.0.0
-    - numpy
-    - scipy
+    - python ${{ python_min }}.*
   run:
-    - python
     - dismod-at >=2026.0.0
     - numpy
+    - python >=${{ python_min }}
     - scipy
 
 tests:
   - python:
-      imports:
-        - at_cascade
+      imports: at_cascade
       pip_check: true
+      python_version:
+        - ${{ python_min }}.*
+        - 3.14.*
   # Run one of the sandbox tests using the installed version of at_cascade.
   - script:
-      # python example/csv/sim_fit_pred.py
-      interpreter: python
-      content: exec( open('example/csv/sim_fit_pred.py').read() )
+      - python example/csv/sim_fit_pred.py
     requirements:
+      run:
+        - python ${{ python_min }}.*
     files:
       source:
         - example/csv/sim_fit_pred.py
